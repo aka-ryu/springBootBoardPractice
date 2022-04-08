@@ -48,7 +48,7 @@ public class BoardService {
     public List<BoardDTO> getBoardListWithPaging(int page){
         Sort sort = Sort.by("bno").descending();
 
-        Pageable pageable = PageRequest.of(page, 10, sort);
+        Pageable pageable = PageRequest.of(page-1, 10, sort);
 
         Page<BoardEntity> result = boardRepository.findAll(pageable);
 
