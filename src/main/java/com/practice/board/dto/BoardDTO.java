@@ -1,6 +1,6 @@
 package com.practice.board.dto;
 
-import com.practice.board.entity.BoardEntity;
+import com.practice.board.entity.Board;
 import lombok.*;
 
 
@@ -20,7 +20,7 @@ public class BoardDTO {
     private LocalDateTime createDate;
     private LocalDateTime lastModifiedDate;
 
-    public BoardDTO(BoardEntity boardEntity) {
+    public BoardDTO(Board boardEntity) {
         this.bno = boardEntity.getBno();
         this.title = boardEntity.getTitle();
         this.content = boardEntity.getContent();
@@ -29,8 +29,8 @@ public class BoardDTO {
         this.lastModifiedDate = boardEntity.getLastModifiedDate();
     }
 
-    public static BoardEntity toEntity(BoardDTO boardDTO) {
-            return BoardEntity.builder()
+    public static Board toEntity(BoardDTO boardDTO) {
+            return Board.builder()
                     .title(boardDTO.getTitle())
                     .content(boardDTO.getContent())
                     .writer(boardDTO.getWriter())

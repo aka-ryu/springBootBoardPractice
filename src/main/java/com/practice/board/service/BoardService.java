@@ -1,7 +1,7 @@
 package com.practice.board.service;
 
 import com.practice.board.dto.BoardDTO;
-import com.practice.board.entity.BoardEntity;
+import com.practice.board.entity.Board;
 import com.practice.board.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -31,15 +31,15 @@ public class BoardService {
 
 
     public BoardDTO getBoard(Long bno){
-        Optional<BoardEntity> OptionalBoardEntity = boardRepository.findById(bno);
-        BoardEntity boardEntity = OptionalBoardEntity.get();
+        Optional<Board> OptionalBoardEntity = boardRepository.findById(bno);
+        Board boardEntity = OptionalBoardEntity.get();
         BoardDTO boardDTO = modelMapper.map(boardEntity, BoardDTO.class);
 
         return boardDTO;
     }
 
 
-    public List<BoardEntity> getBoardList(){
+    public List<Board> getBoardList(){
        return boardRepository.findAll();
     }
 
@@ -50,7 +50,7 @@ public class BoardService {
 
         Pageable pageable = PageRequest.of(page-1, 10, sort);
 
-        Page<BoardEntity> result = boardRepository.findAll(pageable);
+        Page<Board> result = boardRepository.findAll(pageable);
 
         List<BoardDTO> boardDTOList = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class BoardService {
 
 
     public void BoardRegister(BoardDTO boardDTO){
-        BoardEntity boardEntity = BoardEntity.builder()
+        Board boardEntity = Board.builder()
                 .title(boardDTO.getTitle())
                 .content(boardDTO.getContent())
                 .writer(boardDTO.getWriter())
@@ -76,17 +76,17 @@ public class BoardService {
     @Transactional
     public void BoardUpdate(BoardDTO boardDTO){
 
-        BoardEntity boardEntity = boardRepository.getById(boardDTO.getBno());
+        Board boardEntity = boardRepository.getById(boardDTO.getBno());
         boardEntity.changeBoard(boardDTO.getTitle(), boardDTO.getContent());
 
         boardRepository.save(boardEntity);
     }
 
     public void BoardRemove(Long bno){
-        Optional<BoardEntity> OptionalBoardEntity = boardRepository.findById(bno);
-        BoardEntity boardEntity = OptionalBoardEntity.get();
+        Optional<Board> OptionalBoardEntity = boardRepository.findById(bno);
+        Board board = OptionalBoardEntity.get();
 
-        boardRepository.delete(boardEntity);
+        boardRepository.delete(board);
     }
 
 }

@@ -10,23 +10,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserEntity extends BaseTimeEntity {
+public class User extends BaseTimeEntity {
+
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String userid;
-
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String emailId;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
-    private String phoneNumber;
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String phoneNumber;
 
     @Column(nullable = false, unique = true)
     private String walletAddress;

@@ -1,9 +1,8 @@
 package com.practice.board.service;
 
 import com.practice.board.dto.BoardDTO;
-import com.practice.board.entity.BoardEntity;
+import com.practice.board.entity.Board;
 import com.practice.board.repository.BoardRepository;
-import org.hibernate.boot.model.source.spi.PluralAttributeElementSourceOneToMany;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -80,7 +78,7 @@ public class BoardTest {
     public void getBoardListWithPaging() {
         Sort sort = Sort.by("bno").descending();
         Pageable pageable = PageRequest.of(2,20, sort);
-        Page<BoardEntity> result = boardRepository.findAll(pageable);
+        Page<Board> result = boardRepository.findAll(pageable);
 
         System.out.println("---------------------");
 

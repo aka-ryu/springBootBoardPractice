@@ -2,18 +2,13 @@ package com.practice.board.controller;
 
 import com.practice.board.dto.BoardDTO;
 import com.practice.board.dto.ResponseDTO;
-import com.practice.board.entity.BoardEntity;
 import com.practice.board.service.BoardService;
 import lombok.extern.log4j.Log4j2;
-import org.modelmapper.spi.ErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/board")
