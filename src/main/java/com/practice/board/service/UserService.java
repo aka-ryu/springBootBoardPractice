@@ -42,9 +42,27 @@ public class UserService {
         }
     }
 
-    // 회원수정,탈퇴 이전에 유효한 회원 맞는지 검사
-    // 탈퇴에도 굳이 필요한가?.. 는 싶긴한데...
-    public void updateDeleteValidate(UserDTO userDTO) {
+    // 회원수정 이전에 유효한 회원 맞는지, 수정한 내용에 unique 중복이 있는지?
+    public void updateValidate(UserDTO userDTO) {
+        Optional<User> optionalUser =
+                userRepository.findById(userDTO.getEmailId());
+
+        if(optionalUser.isEmpty()) {
+            log.warn("존재하지 않는 회원 입니다.");
+            throw new RuntimeException("존재하지 않는 회원입니다.");
+        }
+
+        Optional<User> optionalUser2 =
+                userRepository.findByPhone(userDTO.getPhoneNumber());
+
+        if(optionalUser2.isPresent()) {
+            log.warn("이미 존재하는 전화번호");
+            throw new RuntimeException("이미 존재하는 전화번호 입니다.");
+        }
+    }
+
+    // 존재하는 회원이 맞는지
+    public void Validate(UserDTO userDTO) {
         Optional<User> optionalUser =
                 userRepository.findById(userDTO.getEmailId());
 
@@ -68,6 +86,12 @@ public class UserService {
     // 회원조회
     public UserDTO getUser(String emailId){
         Optional<User> optionalUserEntity = userRepository.findById(emailId);
+
+        if(optionalUserEntity.isEmpty()) {
+            log.warn("존재하지 않는 회원 입니다.");
+            throw new RuntimeException("존재하지 않는 회원입니다.");
+        }
+
         User userEntity = optionalUserEntity.get();
         UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
 
@@ -90,7 +114,7 @@ public class UserService {
 //            return "존재하지 않는 회원";
 //        }
 
-        updateDeleteValidate(userDTO);
+        updateValidate(userDTO);
 
         User user = UserDTO.toEntity(userDTO);
         userRepository.save(user);
@@ -113,7 +137,7 @@ public class UserService {
 //            return "존재하지 않는 회원";
 //        }
 
-        updateDeleteValidate(userDTO);
+        Validate(userDTO);
 
         User user = UserDTO.toEntity(userDTO);
         userRepository.delete(user);
