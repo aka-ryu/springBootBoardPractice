@@ -2,6 +2,7 @@ package com.practice.board.controller;
 
 import com.practice.board.dto.ResponseDTO;
 import com.practice.board.dto.UserDTO;
+import com.practice.board.entity.User;
 import com.practice.board.service.UserService;
 
 import lombok.extern.log4j.Log4j2;
@@ -74,7 +75,7 @@ public class UserController {
             ResponseDTO<String> result = ResponseDTO.<String>builder()
                     .error(errMsg)
                     .build();
-            return ResponseEntity.badRequest().body(result);
+            return ResponseEntity.ok().body(result);
         }
     }
 
@@ -126,6 +127,31 @@ public class UserController {
                     .error(errMsg)
                     .build();
             return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    // 로그인
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
+
+        try {
+            String service = userService.signin(userDTO);
+
+            List<String> list = new ArrayList<>();
+            list.add(service);
+
+            ResponseDTO<String> result = ResponseDTO.<String>builder()
+                    .data(list)
+                    .build();
+
+            return ResponseEntity.ok().body(result);
+
+        } catch (Exception e) {
+            String errMsg = e.getMessage();
+            ResponseDTO<String> result = ResponseDTO.<String>builder()
+                    .error(errMsg)
+                    .build();
+            return ResponseEntity.ok().body(result);
         }
     }
 }

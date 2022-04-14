@@ -144,4 +144,19 @@ public class UserService {
 
         return userDTO.getEmailId() + "의 탈퇴(제명)이 완료되었습니다.";
     }
+
+    //로그인
+    public String signin(UserDTO userDTO) {
+        Validate(userDTO);
+
+        Optional<User> optionalUserEntity = userRepository.findById(userDTO.getEmailId());
+        User user = optionalUserEntity.get();
+        
+        if(!user.getPassword().equals(userDTO.getPassword())) {
+            log.warn("비번틀림");
+            throw new RuntimeException("비번틀림");
+        } else {
+            return "로그인성공";
+        }
+    }
 }
